@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+
+    <bean id="clientResourceFactory" class="com.common.ClientResourceFactory"></bean>
+
+    <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+        <property name="poolName" value="project"/>
+        <property name="dataSourceClassName" value="${spring.datasource.dataSourceClassName}"/>
+        <property name="maximumPoolSize" value="${spring.datasource.maximumPoolSize}"/>
+        <property name="connectionTimeout" value="${spring.datasource.connectionTimeout}"/>
+        <property name="idleTimeout" value="${spring.datasource.idleTimeout}"/>
+        <property name="dataSourceProperties">
+            <props>
+                <prop key="url">${spring.datasource.url}</prop>
+                <prop key="user">${spring.datasource.username}</prop>
+                <prop key="password">${spring.datasource.password}</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <constructor-arg ref="hikariConfig"/>
+    </bean>
+
+</beans>
